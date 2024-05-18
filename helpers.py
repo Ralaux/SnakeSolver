@@ -11,13 +11,13 @@ import random
 def get_moves(grid:list, pos_head:tuple)->list:
     moves = []
     
-    if (pos_head[0] and not grid[pos_head[0]-1][pos_head[1]]):
+    if (pos_head[0] and grid[pos_head[0]-1][pos_head[1]] != 1):
         moves.append('UP')
-    if (pos_head[0] < len(grid)-1 and not grid[pos_head[0]+1][pos_head[1]]):
+    if (pos_head[0] < len(grid)-1 and grid[pos_head[0]+1][pos_head[1]] != 1):
         moves.append('DOWN')
-    if (pos_head[1] < len(grid[pos_head[0]])-1 and not grid[pos_head[0]][pos_head[1]+1]):
+    if (pos_head[1] < len(grid[pos_head[0]])-1 and grid[pos_head[0]][pos_head[1]+1] != 1):
         moves.append('RIGHT')
-    if (pos_head[1] and not grid[pos_head[0]][pos_head[1]-1]):
+    if (pos_head[1] and grid[pos_head[0]][pos_head[1]-1] != 1):
         moves.append('LEFT')
     
     return moves
@@ -71,7 +71,7 @@ def add_apple(grid:list)->list:
     for row in grid:
         empty_counter += row.count(0)
     if empty_counter < 1:
-        return None
+        return None, None
     new_apple = random.randint(1, empty_counter)
     
     for row in range(0, len(grid)):
@@ -80,9 +80,10 @@ def add_apple(grid:list)->list:
                 continue
             new_apple -=1
             if new_apple == 0:
+                pos_apple = (row,elem)
                 grid[row][elem] = 'X'
                 break
-    return grid
+    return grid, pos_apple
 
 def update_score(score, score_label):
     score_label.config(text="Score: {}".format(score))

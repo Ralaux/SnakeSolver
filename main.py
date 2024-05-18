@@ -1,16 +1,18 @@
 from helpers import get_moves, key_pressed, get_new_head, is_in_grid, add_apple, update_score, draw_grid
+from solver import my_move
 import time
 import tkinter as tk 
 
-
+manual = False
 
 starting_body = [(7,3), (7,4)]
 pos_head = (7,5)
-starting_apple = (2,8)
+pos_apple = (2,8)
 height = 10
 width = 10
 body_elements = starting_body + [pos_head]
 score = 0
+move_asked = None
 eat = False
 win = False
 
@@ -24,7 +26,7 @@ for i in range(0,height):
 for pos in starting_body:
     grid[pos[0]][pos[1]] = 1
 grid[pos_head[0]][pos_head[1]] = 2
-grid[starting_apple[0]][starting_apple[1]] = 'X'
+grid[pos_apple[0]][pos_apple[1]] = 'X'
 
 root = tk.Tk()
 root.title("Snake Game")
@@ -41,8 +43,11 @@ while True:
     
     #Get the move asked
     available_moves = get_moves(grid, pos_head)
-    time.sleep(0.4)
-    move_asked = key_pressed()
+    time.sleep(0.1)
+    if manual:
+        move_asked = key_pressed()
+    else :
+        move_asked = my_move(grid, pos_head, pos_apple, available_moves, move_asked)
     new_head = get_new_head(move_asked, available_moves, pos_head, body_elements)
     
     #Check if the move is legal
@@ -61,7 +66,7 @@ while True:
     body_elements.append(new_head)
     pos_head = new_head
     if eat :
-        grid = add_apple(grid) #returns none if no empty space -> Win
+        grid, pos_apple = add_apple(grid) #returns none if no empty space -> Win
         eat = False
         score +=1
     else :
