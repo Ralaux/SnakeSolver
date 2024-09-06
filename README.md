@@ -3,7 +3,7 @@
 Solver 0:
 Snake fait toujours le même tracé en boucle. 100% de winrate, mais algo le plus lent (et le moins intéressant) possible.  
 
-Solver 1:
+Solver 1 (Le bot ne gagne pas à tout les coups):
 Je commence par juste aller chercher le chemin le plus court.
 Puis par dire au serpent de ne pas se rentrer dedans quand il a un autre choix.
 Il avance jusqu'au milieu de partie, mais se met tout seul dans des boucles mortelles.
